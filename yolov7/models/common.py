@@ -8,14 +8,13 @@ import requests
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.ops import DeformConv2d
 from PIL import Image
 from torch.cuda import amp
 
-from utils.datasets import letterbox
-from utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh
-from utils.plots import color_list, plot_one_box
-from utils.torch_utils import time_synchronized
+from ..utils.datasets import letterbox
+from ..utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh
+from ..utils.plots import color_list, plot_one_box
+from ..utils.torch_utils import time_synchronized
 
 
 ##### basic ####
@@ -862,14 +861,14 @@ class NMS(nn.Module):
         return non_max_suppression(x[0], conf_thres=self.conf, iou_thres=self.iou, classes=self.classes)
 
 
-class autoShape(nn.Module):
+class AutoShape(nn.Module):
     # input-robust model wrapper for passing cv2/np/PIL/torch inputs. Includes preprocessing, inference and NMS
     conf = 0.25  # NMS confidence threshold
     iou = 0.45  # NMS IoU threshold
     classes = None  # (optional list) filter by class
 
     def __init__(self, model):
-        super(autoShape, self).__init__()
+        super(AutoShape, self).__init__()
         self.model = model.eval()
 
     def autoshape(self):
